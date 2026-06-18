@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <!--style>
+        table { width: 50%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #dddddd; text-align: left; padding: 8px; }
+        th { background-color: #f2f2f2; }
+    </style-->
+    <style>
+        table { width: 80%; border-collapse: collapse; margin: 20px auto; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        th { background-color: #f4f4f4; }
+    </style>
+</head>
+<body>
+
+    <h2>Products</h2>
+
+    <table>
+        <thead>
+            <form action="/CRUD/search_products" method="get">
+                <input type="submit" value="Search Product">
+            </form>
+            <form action="/products/cart" method="get">
+                <input type="submit" value="View Cart">
+            </form>
+            <tr>
+                <th>Id</th>
+                <!--th>Supplier_id</th-->
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Accions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr data-id="{{ product.id }}">
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.price }}</td>
+                <td><input type="number" class="quantity-input" value="1" min="1" style="width: 50px;"></td>
+                <td>
+                    <button class="add-to-cart-btn">Add Product</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+            button.addEventListener('click', async (event) => {
+                // Captura la fila justa donde se hizo clic
+                const row = event.target.closest('tr');
+                
+                // Lee el ID dinámico que inyectó MySQL en el HTML
+                const productId = row.getAttribute('data-id');
+                const quantity = row.querySelector('.quantity-input').value;
+
+                const data = {
+                    product_id: parseInt(productId),
+                    amount: parseInt(quantity)
+                };
+
+                try {
+                    const response = await fetch('/products/cart', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        alert('¡Producto agregado al carrito!');
+                    } else {
+                        alert('Error al agregar');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

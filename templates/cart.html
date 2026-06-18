@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <!--style>
+        table { width: 50%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #dddddd; text-align: left; padding: 8px; }
+        th { background-color: #f2f2f2; }
+    </style-->
+    <style>
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            counter-reset: fila-contador;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        table tbody tr {
+            counter-increment: fila-contador;
+        }
+
+        table tbody tr td.numero-automatico::before {
+            content: counter(fila-contador);
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Cart</h2>
+
+    <table>
+        <thead>
+            <form action="/products/" method="get">
+                <input type="submit" value="Back">
+            </form>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Accions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr data-id="{{ item.product.id }}">
+                <td class="numero-automatico"></td>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.product.description }}</td>
+                <td>{{ item.product.price }}</td>
+                <td>{{ item.amount }}</td>
+                <td><button class="delete-to-cart-btn">Delete Product</button></td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td>{{total}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <form action="/products/ordenes_crear" method="post">
+        <input type="submit" value="Pay">
+    </form>
+    <script>
+        document.querySelectorAll('.delete-to-cart-btn').forEach(button => {
+            button.addEventListener('click', async (event) => {
+                // Captura la fila justa donde se hizo clic
+                const row = event.target.closest('tr');
+                const product_Id = row.dataset.id;
+
+                try {
+                    const response = await fetch(`/products/cart_delete/${product_Id}`, {
+                        method: 'POST'
+                    });
+
+                    if (response.ok) {
+                        alert('¡Producto eleminado del carrito!');
+                        window.location.reload();
+                    } else {
+                        alert('Error al eliminar');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

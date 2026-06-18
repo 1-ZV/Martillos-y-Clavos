@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Products</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9; }
+        .card { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h2 { color: #333; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input, select { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
+        button { margin-top: 15px; padding: 10px 15px; background-color: #007BFF; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button.danger { background-color: #DC3545; }
+        button:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>➕ Add Column</h2>
+        <form action="add_products" method="post">
+            <label>Name:</label>
+            <label></label>
+            <input type="text" name="name" placeholder="ej. usuarios" required>
+            
+            <label>Description:</label>
+            <input type="text" name="description" placeholder="ej. telefono" required>
+
+            <label>Price:</label>
+            <input type="text" name="price" placeholder="ej. telefono" required>
+
+            <label>Stock:</label>
+            <input type="text" name="stock" placeholder="ej. telefono" required>
+            
+            <!--label>Tipo de Dato:</label>
+            <select name="tipo">
+                <option value="VARCHAR(255)">Texto (VARCHAR 255)</option>
+                <option value="INT">Entero (INT)</option>
+                <option value="TEXT">Texto Largo (TEXT)</option>
+                <option value="BOOLEAN">Booleano (BOOLEAN)</option>
+            </select--->
+            <button type="submit">Agregar Columna</button>
+        </form>
+    </div>
+</body>
+</html>
