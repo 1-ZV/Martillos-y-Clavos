@@ -4,28 +4,215 @@
     <meta charset="UTF-8">
     <title>Products</title>
     <style>
-        table { width: 50%; border-collapse: collapse; margin: 20px 0; }
-        th, td { border: 1px solid #dddddd; text-align: left; padding: 8px; }
-        th { background-color: #f2f2f2; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+
+        th,
+        td {
+            border: 2px solid #dddddd;
+            text-align: left;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Reset básico para limpiar márgenes por defecto */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Estilos del contenedor del menú */
+        .navbar {
+            background-color: #1a202c;
+            /* Azul oscuro/grisáceo moderno */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Logotipo o Nombre de la empresa */
+        .navbar-logo a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .navbar-logo span {
+            color: #3182ce;
+            /* Detalle en azul brillante */
+        }
+
+        /* Lista de enlaces de navegación */
+        .navbar-links {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+
+        .navbar-links li {
+            margin-left: 1.5rem;
+        }
+
+        .navbar-links a {
+            color: #cbd5e0;
+            /* Gris claro */
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+            padding: 0.5rem 0;
+        }
+
+        /* Efecto Hover al pasar el mouse */
+        .navbar-links a:hover {
+            color: #ffffff;
+            border-bottom: 2px solid #3182ce;
+        }
+
+        /* Botón destacado (por ejemplo, para el Login o Registro) */
+        .navbar-links .btn-login {
+            background-color: #3182ce;
+            color: #ffffff;
+            padding: 0.5rem 1.2rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-links .btn-login:hover {
+            background-color: #2b6cb0;
+            border-bottom: none;
+            color: #ffffff;
+        }
+
+        /* Menú Hamburguesa para móviles (Oculto en pantallas grandes) */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-toggle .bar {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 4px 0;
+            transition: 0.4s;
+        }
+
+        /* --- DISEÑO RESPONSIVO (MÓVILES) --- */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+                /* Muestra las barritas en móvil */
+            }
+
+            .navbar-links {
+                display: none;
+                /* Oculta el menú por defecto en móvil */
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background-color: #1a202c;
+                padding: 1rem 0;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            .navbar-linksli {
+                margin: 1rem 0;
+                text-align: center;
+                width: 100%;
+            }
+
+            /* Clase que se activará con JavaScript para abrir el menú */
+            .navbar-links.active {
+                display: flex;
+            }
+        }
+
+        .btn-add-product {
+            background-color: #9fc5a1;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 15px 0;
+            /* separación */
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            margin-right: 10px;
+        }
+
+        .btn-add-product:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-add-product:active {
+            transform: translateY(0);
+        }
+
+        body {
+            background-color: grey;
+        }
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <a href="/">Ferretería<span> Martillo&Clavos</span></a>
+        </div>
+
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <ul class="navbar-links" id="nav-list">
+            <li><a href="/CRUD">Inicio</a></li>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/products">Product</a></li>
+            <!--li><a href="#">Contacto</a></li>
+            <li><a href="/Login/" class="btn-login">Iniciar Sesión</a></li-->
+        </ul>
+    </nav>
 
     <h2>Products</h2>
 
     <table>
         <thead>
             <form action="add_products" method="get">
-                <input type="submit" value="Add Product">
+                <input type="submit" value="Add Product" class="btn-add-product">
             </form>
             <form action="delete_products" method="get">
-                <input type="submit" value="Delete Product">
+                <input type="submit" value="Delete Product" class="btn-add-product">
             </form>
             <form action="edit_products" method="get">
-                <input type="submit" value="Edit Product">
+                <input type="submit" value="Edit Product" class="btn-add-product">
             </form>
             <form action="search_products" method="get">
-                <input type="submit" value="Search Product">
+                <input type="submit" value="Search Product" class="btn-add-product">
             </form>
             <tr>
                 <th>Id</th>
@@ -34,7 +221,6 @@
                 <th>Description</th>
                 <th>Price</th>
                 <th>Stock</th>
-                <th>Accions</th>
             </tr>
         </thead>
         <tbody>
@@ -49,6 +235,5 @@
             {% endfor %}
         </tbody>
     </table>
-
 </body>
 </html>
